@@ -1,2 +1,3 @@
-# Hello-World
-This is practice repository.
+# Zenn Archive
+This is Zenn Archive.
+
