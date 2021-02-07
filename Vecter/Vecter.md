@@ -14,7 +14,7 @@ plt.figure()
 LX=2.2
 LY=2.2
 
-gridwidth=0.05
+gridwidth = 0.05
 x, y= np.meshgrid(np.arange(-LX, LX, gridwidth), np.arange(-LY, LY,gridwidth)) 
 
 Fx = y
@@ -51,7 +51,7 @@ plt.figure()
 LX, LY = 2.2, 2.2
 
 # 点電荷の座標(x, y)=(0,0)を指定
-x_0, y_0 =0, 0
+x_0, y_0 = 0, 0
 plt.plot(x_0, y_0, 'o', color = 'blue')
 
 # x,yの描画範囲指定
@@ -81,7 +81,7 @@ plt.figure()
 LX, LY = 2.2, 2.2
 
 #  ベクトル場のベクトルの根本の間隔の変数を gridwidth とし、根本の座標のリストをx,yとします。
-gridwidth=0.05
+gridwidth = 0.05
 x, y= np.meshgrid(np.arange(-LX, LX, gridwidth), np.arange(-LY, LY,gridwidth)) 
 
 # 点電荷の座標(x, y)=(0,0)を指定
@@ -113,3 +113,57 @@ plt.show()
 ![](Figure_2.png)
 となります。<br>
 また、グラフ描画の際、`plt.axes().set_aspect('equal')`はX軸と Y軸の両方が同じ範囲になるように設定しました。
+
+# 点電荷が２つある場合
+点電荷が２つある場合はどうでしょうか。<br>
+$(x_1,y_1)$に点電荷$q$, $(x_2,y_2)$に点電荷$-q$が置かれているとすると、２つの点電荷の作る電場の重ね合わせを考えると、
+$$ E_x=\frac{k q}{r_1^2}\frac{x-x_1}{r_1}+\frac{k (-q)}{r_2^2}\frac{x-x_2}{r_2} $$
+$$ E_y=\frac{k q}{r_1^2}\frac{y-y_1}{r_1}+\frac{k (-q)}{r_2^2}\frac{y-y_2}{r_2} $$
+
+$r_1=\sqrt{(x-x_1)^2+(y-y_1)^2}$ $r_2=\sqrt{(x-x_2)^2+(y-y_2)^2}$
+より、次のようになります。
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+plt.figure()
+
+#グラフ範囲を指定
+LX, LY = 2.2, 2.2
+
+#  ベクトル場のベクトルの根本の間隔の変数を gridwidth とし、根本の座標のリストをx,yとします。
+gridwidth = 0.05
+x, y= np.meshgrid(np.arange(-LX, LX, gridwidth), np.arange(-LY, LY,gridwidth)) 
+
+# 点電荷の座標 (x1,y1), 電荷 q1
+x_1,y_1,q_1 = -1, 0, 1
+# (x1,y1) にある電荷から、点 (x,y) までの距離
+r_1=np.sqrt((x-x_1)**2+(y-y_1)**2) 
+plt.plot(x_1,y_1,'o',color='blue')
+
+# 点電荷の座標 (x2,y2), 電荷 q2
+x_2,y_2,q_2 = 1, 0, -1   
+# (x2,y2) にある電荷から、点 (x,y) までの距離
+r_2=np.sqrt((x-x_2)**2+(y-y_2)**2) 
+plt.plot(x_2,y_2,'o',color='red')
+
+# 電場のx,y成分 Ex, Ey を定義
+E_x = q_1*(x-x_1)/(r_1**3)+q_2*(x-x_2)/(r_2**3)  
+E_y = q_1*(y-y_1)/(r_1**3)+q_2*(y-y_2)/(r_2**3)
+
+# ベクトル場をプロット
+plt.streamplot(x,y,E_x,E_y)
+
+# x,yの描画範囲の設定
+plt.xlim([-LX,LX])
+plt.ylim([-LY,LY])
+
+# グラフ描画
+plt.axes().set_aspect('equal')
+plt.grid()
+plt.draw()
+plt.show()
+```
+![](Figure_3.png)
+
+
