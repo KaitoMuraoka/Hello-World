@@ -110,6 +110,6 @@ plt.draw()
 plt.show()
 ```
 
-![](Zenn-Archive/Figure_2.png)
+![](Figure_2.png)
 となります。<br>
 また、グラフ描画の際、`plt.axes().set_aspect('equal')`はX軸と Y軸の両方が同じ範囲になるように設定しました。
